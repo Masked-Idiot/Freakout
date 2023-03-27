@@ -1,2 +1,2 @@
 # Freakout
-The package manager for the FreakC programming language
+The FreakC package manager, written in FreakC!
