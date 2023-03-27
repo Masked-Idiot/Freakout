@@ -1,0 +1,66 @@
+var[] mode=%~1
+var[] pkg=%~2
+var[] curdir=%cd%
+var[] name=%~3
+goto[] main
+label[] Freakout
+	mkdir "%appdata%/Freakout"
+end[]
+
+label[] install
+	git clone "https://github.com/%pkg%"
+end[]
+
+label[] update
+	call[] uninstall
+	call[] install
+end[]
+
+label[] uninstall
+	rmdir /s "%pkg%"
+end[]
+
+label[] main
+	if_not_exist[] "%appdata%/Freakout" (
+		call[] Freakout
+	)
+	if_not[] "%mode%" == "create-project"(
+		cd "%appdata/Freakout%"
+	)
+	if[] "%mode%" == "install" (
+		call[] install
+	)
+	if[] "%mode%" == "remove" (
+		call[] uninstall
+	)
+	if[] "%mode%" == "update" (
+		call[] update
+	)
+	if[] "%mode%" == "create-project" (
+		var[] project.name=%pkg*/=%
+		git clone "%pkg%"
+		REN "%project.name%" "%name%"
+		cd "%name%"
+		if_exist[] "project.fconfig" (
+			<project.fconfig (
+				inp[] template.name=
+				inp[] template.deps=
+				if_exist[] "%template.deps%" (
+					scan_strs[] "tokens=*" %%i in ("%template.deps%") do (
+						if_not_exist[] "%appdata%/Freakout/%%i" (
+							print[] "Error: Dependency not found"
+							print[] "Dependency: %%i"
+							print[] "Please install all of the dependencies before creating this project again"
+						) 
+					)
+				)
+			)
+		) else (
+			cd ..
+			rmdir /s "%name%"
+			print[] "This is not a valid FreakC package"
+			print[] "Missing file: project.fconfig"
+		)
+	)
+	cd %curdir%
+end[]
