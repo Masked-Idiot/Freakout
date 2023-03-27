@@ -1,7 +1,7 @@
 # Freakout
 The FreakC package manager, written in FreakC!
 
-#Installation
+# Installation
 You can either clone this repository:
 <code>
      git clone https://github.com/Masked-Idiot/Freakout.git
