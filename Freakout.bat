@@ -44,7 +44,7 @@ if exist "project.fconfig" (
 set /p template.name=
 set /p template.deps=
 if exist "%template.deps%" (
-for /f "tokens=*" %%i in ("%template.deps%") do (
+for /f "tokens=* delims=" %%i in ("%template.deps%") do (
 if not exist "%appdata%/Freakout/%%i" (
 echo."Error: Dependency not found"
 echo."Dependency: %%i"
