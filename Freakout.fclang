@@ -46,7 +46,7 @@ label[] main
 				inp[] template.name=
 				inp[] template.deps=
 				if_exist[] "%template.deps%" (
-					scan_strs[] "tokens=*" %%i in ("%template.deps%") do (
+					scan_strs[] "tokens=* delims=" %%i in ("%template.deps%") do (
 						if_not_exist[] "%appdata%/Freakout/%%i" (
 							print[] "Error: Dependency not found"
 							print[] "Dependency: %%i"
